@@ -19,7 +19,18 @@
     "build": "babel src --out-dir dist --extensions \".ts,.tsx\" && tsc --emitDeclarationOnly",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+   "keywords": [
+    "react",
+    "form",
+    "dynamic-form",
+    "form-builder",
+    "json-form",
+    "mui",
+    "typescript",
+    "form-generator",
+    "react-form",
+    "react-component"
+  ],
   "author": "Prashanth Molakala",
   "license": "MIT",
   "type": "commonjs",
