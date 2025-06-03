@@ -1,6 +1,6 @@
 {
   "name": "react-dynoform",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "JSON-based Dynamic Form Builder for React",
   "main": "dist/DynamicForm.js",
   "types": "dist/DynamicForm.d.ts",
@@ -19,7 +19,7 @@
     "build": "babel src --out-dir dist --extensions \".ts,.tsx\" && tsc --emitDeclarationOnly",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-   "keywords": [
+  "keywords": [
     "react",
     "form",
     "dynamic-form",
