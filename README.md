@@ -10,9 +10,9 @@ A flexible and extensible form-rendering React component powered by a JSON confi
 ## 📦 Installation
 
 ```bash
-npm install @your-scope/dynafield
+npm install react-dynoform
 # or
-yarn add @your-scope/dynafield
+yarn add react-dynoform
 ```
 
 ---
@@ -21,7 +21,7 @@ yarn add @your-scope/dynafield
 
 ```tsx
 import React from 'react';
-import DynamicForm, { FormField } from '@your-scope/dynafield';
+import DynamicForm, { FormField } from 'react-dynoform';
 
 const formFields: FormField[] = [
   {
