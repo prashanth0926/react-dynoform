@@ -1,6 +1,6 @@
 {
   "name": "react-dynoform",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "JSON-based Dynamic Form Builder for React",
   "main": "dist/DynamicForm.js",
   "types": "dist/DynamicForm.d.ts",
@@ -20,8 +20,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Prashanth Molakala",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@mui/x-date-pickers": "^8.5.0",

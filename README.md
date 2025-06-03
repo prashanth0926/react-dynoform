@@ -10,9 +10,9 @@ A flexible and extensible form-rendering React component powered by a JSON confi
 ## 📦 Installation
 
 ```bash
-npm install react-dynoform
+npm install @your-scope/dynafield
 # or
-yarn add react-dynoform
+yarn add @your-scope/dynafield
 ```
 
 ---
@@ -21,7 +21,7 @@ yarn add react-dynoform
 
 ```tsx
 import React from 'react';
-import DynamicForm, { FormField } from 'react-dynoform';
+import DynamicForm, { FormField } from '@your-scope/dynafield';
 
 const formFields: FormField[] = [
   {
@@ -83,7 +83,8 @@ interface FormField {
   label: string;
   type?: "text" | "checkbox" | "radio" | "select" | "hidden" | "date" | "array";
   nestedFields?: FormField[];
-  options?: { label: string; value: string }[] | ((formData: Record<string, any>) => { label: string; value: string }[]);
+  options?: { label: string; value: string }[];
+  loadOptionsApi?: string;
   defaultValue?: any;
   disabled?: boolean;
   required?: boolean;
@@ -143,3 +144,27 @@ Example:
   showIf: "USA,Canada"
 }
 ```
+
+---
+
+## 🧪 Development
+
+Clone locally:
+
+```bash
+git clone https://github.com/your-org/dynafield.git
+cd dynafield
+npm install
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+---
+
+## 📜 License
+
+MIT © 2025 Prashanth Molakala
