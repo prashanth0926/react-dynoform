@@ -83,8 +83,7 @@ interface FormField {
   label: string;
   type?: "text" | "checkbox" | "radio" | "select" | "hidden" | "date" | "array";
   nestedFields?: FormField[];
-  options?: { label: string; value: string }[];
-  loadOptionsApi?: string;
+  options?: { label: string; value: string }[] | ((formData: Record<string, any>) => { label: string; value: string }[]);
   defaultValue?: any;
   disabled?: boolean;
   required?: boolean;
