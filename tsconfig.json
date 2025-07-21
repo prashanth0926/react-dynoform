@@ -11,7 +11,12 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "isolatedModules": true,
-    "lib": ["DOM", "ES2016"]
+    "lib": ["DOM", "ES2016"],
+    "baseUrl": ".", // ✅ Needed for path aliases
+    "paths": {
+      "@src/*": ["src/*"] // ✅ Optional alias for easier dev
+    }
   },
-  "include": ["src"]
+  "include": ["src"], // ✅ Keeps build limited to package code
+  "exclude": ["demo", "node_modules"] // ✅ Ignore demo from package build
 }

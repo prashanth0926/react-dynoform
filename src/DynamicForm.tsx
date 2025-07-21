@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -17,8 +17,7 @@ import {
   AccordionDetails,
   AccordionActions,
   SvgIcon,
-} from "@mui/material";
-import DatePickerComponent from "./DatePickerComponent";
+} from '@mui/material';
 
 const ExpandMore = (props: any) => (
   <SvgIcon {...props}>
@@ -29,9 +28,11 @@ const ExpandMore = (props: any) => (
 export interface FormField {
   key: string;
   label: string;
-  type?: "text" | "checkbox" | "radio" | "select" | "hidden" | "date" | "array";
+  type?: 'text' | 'checkbox' | 'radio' | 'select' | 'hidden' | 'date' | 'array';
   nestedFields?: FormField[];
-  options?: { label: string; value: string }[] | ((formData: Record<string, any>) => { label: string; value: string }[]);
+  options?:
+    | { label: string; value: string }[]
+    | ((formData: Record<string, any>) => { label: string; value: string }[]);
   defaultValue?: any;
   disabled?: boolean;
   required?: boolean;
@@ -41,13 +42,14 @@ export interface FormField {
   doNotMap?: boolean;
   mapFrom?: string;
   valueType?:
-  | "string"
-  | "number"
-  | "boolean"
-  | "date"
-  | "json"
-  | "jsonString"
-  | "array";
+    | 'string'
+    | 'number'
+    | 'boolean'
+    | 'date'
+    | 'isoDateString'
+    | 'json'
+    | 'jsonString'
+    | 'array';
 }
 
 interface DynamicFormProps {
@@ -64,19 +66,15 @@ interface DynamicFormProps {
 const DynamicForm: React.FC<DynamicFormProps> = ({
   fields,
   disabled,
-  submitButtonLabel = "Submit",
+  submitButtonLabel = 'Submit',
   selectedValues = {},
   hideSubmit,
   onChange,
   onSubmit,
   onRemove,
 }) => {
-  const setNestedValue = (
-    obj: Record<string, any>,
-    path: string,
-    value: any,
-  ): void => {
-    const keys = path.split(".");
+  const setNestedValue = (obj: Record<string, any>, path: string, value: any): void => {
+    const keys = path.split('.');
     let current = obj;
 
     for (let i = 0; i < keys.length - 1; i++) {
@@ -90,8 +88,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   };
 
   const getNestedValue = (obj: Record<string, any>, path: string): any => {
-    return path.split(".").reduce((acc, key) => {
-      if (acc && typeof acc === "object") {
+    return path.split('.').reduce((acc, key) => {
+      if (acc && typeof acc === 'object') {
         return acc[key];
       }
       return undefined;
@@ -101,35 +99,39 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   const convertToType = (
     value: unknown,
     type:
-      | "string"
-      | "number"
-      | "boolean"
-      | "date"
-      | "json"
-      | "jsonString"
-      | "array",
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'date'
+      | 'isoDateString'
+      | 'json'
+      | 'jsonString'
+      | 'array'
   ) => {
     try {
       switch (type) {
-        case "string":
+        case 'string':
           return String(value);
 
-        case "number":
+        case 'number':
           const num = Number(value);
           return isNaN(num) ? null : num;
 
-        case "boolean":
-          if (typeof value === "string") {
-            return value.toLowerCase() === "true";
+        case 'boolean':
+          if (typeof value === 'string') {
+            return value.toLowerCase() === 'true';
           }
           return Boolean(value);
 
-        case "date":
+        case 'date':
           const date = new Date(value as string | number);
           return isNaN(date.getTime()) ? null : date;
 
-        case "json":
-          if (typeof value === "string") {
+        case 'isoDateString':
+          return new Date(value as string | number).toISOString();
+
+        case 'json':
+          if (typeof value === 'string') {
             try {
               return JSON.parse(value);
             } catch {
@@ -138,8 +140,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           }
           return null;
 
-        case "jsonString":
-          if (typeof value === "string") {
+        case 'jsonString':
+          if (typeof value === 'string') {
             try {
               JSON.parse(value);
               return value;
@@ -149,7 +151,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           }
           return null;
 
-        case "array":
+        case 'array':
           if (Array.isArray(value)) {
             return value;
           }
@@ -163,9 +165,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
     }
   };
 
-  const transformFormData = (
-    data: Record<string, any>,
-  ): Record<string, any> => {
+  const transformFormData = (data: Record<string, any>): Record<string, any> => {
     for (const key in data) {
       const f = fields.find((field) => field.key === key);
       let value = data[key];
@@ -183,7 +183,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         data[key] = value;
       }
 
-      if (value === "" || value === undefined || value === null) {
+      if (value === '' || value === undefined || value === null) {
         delete data[key];
       }
     }
@@ -196,15 +196,15 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
       (acc, field) => {
         acc[field.key] =
           selectedValues?.[field.key] ??
-          getNestedValue(selectedValues || {}, field.mapFrom || "") ??
-          getNestedValue(selectedValues || {}, field.mapTo || "") ??
+          getNestedValue(selectedValues || {}, field.mapFrom || '') ??
+          getNestedValue(selectedValues || {}, field.mapTo || '') ??
           field.defaultValue ??
-          (field?.type === "checkbox" ? false : "") ??
-          (field?.type === "array" ? [] : "");
+          (field?.type === 'checkbox' ? false : '') ??
+          (field?.type === 'array' ? [] : '');
         return acc;
       },
-      {} as Record<string, any>,
-    ),
+      {} as Record<string, any>
+    )
   );
   const [fieldOptions, setFieldOptions] = useState<
     Record<string, { label: string; value: string }[]>
@@ -228,23 +228,21 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
   const shouldDisplayField = (field: FormField): boolean => {
     if (!field.dependsOn || field.showIf === undefined) return true;
-    if (field.showIf === '*' && formData[field.dependsOn] !== undefined) return true;
+    if (field.showIf === '*' && formData[field.dependsOn]) return true;
     return field.showIf
-      .split(",")
+      .split(',')
       .map((a) => a.trim())
       .includes(formData[field.dependsOn]);
   };
 
   const isNestedFormValid = (field: FormField) =>
     field?.nestedFields?.every((nestedField) => {
-      const nestedVal = (formData?.[field.key] ?? [{}])[
-        (formData[field.key] ?? [{}]).length - 1
-      ]?.[nestedField.key];
+      const nestedVal = (formData?.[field.key] ?? [{}])[(formData[field.key] ?? [{}]).length - 1]?.[
+        nestedField.key
+      ];
 
       if (nestedField.required) {
-        return (
-          nestedVal !== "" && nestedVal !== undefined && nestedVal !== null
-        );
+        return nestedVal !== '' && nestedVal !== undefined && nestedVal !== null;
       } else {
         return true;
       }
@@ -252,20 +250,18 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
   const isFormValid = fields.every((field) => {
     if (!shouldDisplayField(field)) return true;
-    if (field.type === "array" && !!field?.nestedFields?.length) {
+    if (field.type === 'array' && !!field?.nestedFields?.length) {
       return isNestedFormValid(field);
     }
     if (!field.required) return true;
 
     const value = formData[field.key];
 
-    return value !== "" && value !== undefined && value !== null;
+    return value !== '' && value !== undefined && value !== null;
   });
 
   useEffect(() => {
-    const loadOptionsFields = fields.filter(
-      (field) => !!field?.options,
-    );
+    const loadOptionsFields = fields.filter((field) => !!field?.options);
     for (const field of loadOptionsFields) {
       const rawOptions = field.options;
 
@@ -285,7 +281,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
   useEffect(() => {
     const loadOptionsFields = fields.filter(
-      (field) => !!field?.options && typeof field.options === 'function',
+      (field) => !!field?.options && typeof field.options === 'function'
     );
     for (const field of loadOptionsFields) {
       const rawOptions = field.options;
@@ -307,7 +303,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         const label = field.label;
 
         switch (field?.type) {
-          case "text":
+          case 'text':
             return (
               <TextField
                 key={field.key}
@@ -318,7 +314,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 onChange={(e) => handleChange(field.key, e.target.value)}
               />
             );
-          case "checkbox":
+          case 'checkbox':
             return (
               <FormControlLabel
                 key={field.key}
@@ -332,7 +328,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 label={label}
               />
             );
-          case "radio":
+          case 'radio':
             return (
               <FormControl key={field.key}>
                 <Typography variant="body1">{label}</Typography>
@@ -345,9 +341,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                       <FormControlLabel
                         key={opt.value}
                         value={opt.value}
-                        control={
-                          <Radio disabled={!!field?.disabled || disabled} />
-                        }
+                        control={<Radio disabled={!!field?.disabled || disabled} />}
                         label={opt.label}
                       />
                     ))}
@@ -355,7 +349,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 </RadioGroup>
               </FormControl>
             );
-          case "select":
+          case 'select':
             return (
               <FormControl key={field.key} fullWidth required={field.required}>
                 <InputLabel>{label}</InputLabel>
@@ -373,18 +367,20 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 </Select>
               </FormControl>
             );
-          case "date":
+          case 'date':
             return (
-              <DatePickerComponent
+              <TextField
+                type="date"
                 key={field.key}
-                defaultValue={formData[field.key]}
-                onChange={(date) => handleChange(field.key, date)}
-                disabled={!!field?.disabled || disabled}
-                required={!!field?.required}
                 label={label}
+                required={field.required}
+                value={formData[field.key]}
+                disabled={!!field?.disabled || disabled}
+                onChange={(e) => handleChange(field.key, e.target.value)}
+                InputLabelProps={{ shrink: true }}
               />
             );
-          case "array":
+          case 'array':
             return (
               <Accordion>
                 <AccordionSummary expandIcon={<ExpandMore />}>
@@ -393,82 +389,68 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {(formData[field.key] || [{}]).map((nestedValue: Record<string, any>, index: number) => (
-                    <Accordion
-                      expanded={editIndex === index}
-                      key={`${field.key}-${index}`}
-                      id={`${field.key}-${index}`}
-                      sx={{ m: "8px 40px" }}
-                    >
-                      <AccordionSummary
-                        onClick={() =>
-                          editIndex === index
-                            ? setEditIndex(-1)
-                            : setEditIndex(index)
-                        }
-                        expandIcon={<ExpandMore />}
+                  {(formData[field.key] || [{}]).map(
+                    (nestedValue: Record<string, any>, index: number) => (
+                      <Accordion
+                        expanded={editIndex === index}
+                        key={`${field.key}-${index}`}
+                        id={`${field.key}-${index}`}
+                        sx={{ m: '8px 40px' }}
                       >
-                        <Typography
-                          color="textSecondary"
-                          variant="body2"
-                          mb={1}
+                        <AccordionSummary
+                          onClick={() =>
+                            editIndex === index ? setEditIndex(-1) : setEditIndex(index)
+                          }
+                          expandIcon={<ExpandMore />}
                         >
-                          {field.label} item#{index + 1} -{" "}
-                          {formData?.[field.key]?.[index]?.key ??
-                            nestedValue?.value}
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <DynamicForm
-                          hideSubmit={true}
-                          disabled={editIndex !== index}
-                          selectedValues={nestedValue}
-                          fields={field?.nestedFields || []}
-                          onChange={(data) => {
-                            if (
-                              formData[field.key] &&
-                              formData[field.key]?.length
-                            ) {
-                              const updatedValue = [...formData[field.key]];
-                              updatedValue[index] = data;
-                              handleChange(field.key, []);
-                              handleChange(field.key, updatedValue);
-                            } else {
-                              handleChange(field.key, [data]);
-                            }
-                          }}
-                        />
-                      </AccordionDetails>
-                      <AccordionActions>
-                        <Button
-                          onClick={() => {
-                            if (
-                              formData[field.key] &&
-                              formData[field.key].length
-                            ) {
-                              const updatedValues = formData[field.key].filter(
-                                (_: any, idx: number) => idx !== index,
-                              );
-                              handleChange(field.key, []);
-                              handleChange(field.key, updatedValues);
-                              setEditIndex(-1);
-                            }
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </AccordionActions>
-                    </Accordion>
-                  ))}
+                          <Typography color="textSecondary" variant="body2" mb={1}>
+                            {field.label} item#{index + 1} -{' '}
+                            {formData?.[field.key]?.[index]?.key ?? nestedValue?.value}
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <DynamicForm
+                            hideSubmit={true}
+                            disabled={editIndex !== index}
+                            selectedValues={nestedValue}
+                            fields={field?.nestedFields || []}
+                            onChange={(data) => {
+                              if (formData[field.key] && formData[field.key]?.length) {
+                                const updatedValue = [...formData[field.key]];
+                                updatedValue[index] = data;
+                                handleChange(field.key, []);
+                                handleChange(field.key, updatedValue);
+                              } else {
+                                handleChange(field.key, [data]);
+                              }
+                            }}
+                          />
+                        </AccordionDetails>
+                        <AccordionActions>
+                          <Button
+                            onClick={() => {
+                              if (formData[field.key] && formData[field.key].length) {
+                                const updatedValues = formData[field.key].filter(
+                                  (_: any, idx: number) => idx !== index
+                                );
+                                handleChange(field.key, []);
+                                handleChange(field.key, updatedValues);
+                                setEditIndex(-1);
+                              }
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </AccordionActions>
+                      </Accordion>
+                    )
+                  )}
                 </AccordionDetails>
                 <AccordionActions>
                   <Button
                     disabled={!isNestedFormValid(field)}
                     onClick={() => {
-                      handleChange(field.key, [
-                        ...(formData[field.key] ?? [{}]),
-                        {},
-                      ]);
+                      handleChange(field.key, [...(formData[field.key] ?? [{}]), {}]);
                     }}
                   >
                     Add
@@ -476,7 +458,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 </AccordionActions>
               </Accordion>
             );
-          case "hidden":
+          case 'hidden':
             return null;
           default:
             return (
@@ -493,20 +475,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
       })}
       <Box display="flex" justifyContent="space-between">
         {!hideSubmit && (
-          <Button
-            variant="contained"
-            onClick={handleSubmit}
-            disabled={!isFormValid || disabled}
-          >
+          <Button variant="contained" onClick={handleSubmit} disabled={!isFormValid || disabled}>
             {submitButtonLabel}
           </Button>
         )}
         {!!onRemove && (
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => onRemove(formData)}
-          >
+          <Button variant="contained" color="error" onClick={() => onRemove(formData)}>
             Remove
           </Button>
         )}

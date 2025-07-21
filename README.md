@@ -52,12 +52,7 @@ const formFields: FormField[] = [
 ];
 
 export default function App() {
-  return (
-    <DynamicForm
-      fields={formFields}
-      onSubmit={(data) => console.log('Submitted:', data)}
-    />
-  );
+  return <DynamicForm fields={formFields} onSubmit={(data) => console.log('Submitted:', data)} />;
 }
 ```
 
@@ -67,7 +62,6 @@ export default function App() {
 
 - ✅ Supports `text`, `select`, `checkbox`, `radio`, `date`, `array`, `hidden`
 - 📚 Nested forms (`type: 'array'`) with collapsible sections
-- ⚡ Dynamic `select` options from API (`loadOptionsApi`)
 - 🎯 Conditional rendering via `dependsOn` and `showIf`
 - 🔄 Bi-directional data mapping (`mapTo`, `mapFrom`, `doNotMap`)
 - 🔐 Full support for validation and controlled components
@@ -81,9 +75,11 @@ export default function App() {
 interface FormField {
   key: string;
   label: string;
-  type?: "text" | "checkbox" | "radio" | "select" | "hidden" | "date" | "array";
+  type?: 'text' | 'checkbox' | 'radio' | 'select' | 'hidden' | 'date' | 'array';
   nestedFields?: FormField[];
-  options?: { label: string; value: string }[] | ((formData: Record<string, any>) => { label: string; value: string }[]);
+  options?:
+    | { label: string; value: string }[]
+    | ((formData: Record<string, any>) => { label: string; value: string }[]);
   defaultValue?: any;
   disabled?: boolean;
   required?: boolean;
@@ -92,7 +88,7 @@ interface FormField {
   mapTo?: string;
   doNotMap?: boolean;
   mapFrom?: string;
-  valueType?: "string" | "number" | "boolean" | "date" | "json" | "jsonString" | "array";
+  valueType?: 'string' | 'number' | 'boolean' | 'date' | 'json' | 'jsonString' | 'array';
 }
 ```
 
@@ -100,16 +96,16 @@ interface FormField {
 
 ## 📤 Props
 
-| Prop                | Type                                       | Description                            |
-|---------------------|--------------------------------------------|----------------------------------------|
-| `fields`            | `FormField[]`                              | Configuration array                    |
-| `disabled?`         | `boolean`                                  | Disables all inputs                    |
-| `selectedValues?`   | `Record<string, any>`                      | Pre-filled values                      |
-| `submitButtonLabel?`| `string`                                   | Custom submit label                    |
-| `hideSubmit?`       | `boolean`                                  | Hide the submit button                 |
-| `onChange?`         | `(data: Record<string, any>) => void`     | Called on any change                   |
-| `onSubmit?`         | `(data: Record<string, any>) => void`     | Called on submit                       |
-| `onRemove?`         | `(data: Record<string, any>) => void`     | Called when delete is clicked         |
+| Prop                 | Type                                  | Description                   |
+| -------------------- | ------------------------------------- | ----------------------------- |
+| `fields`             | `FormField[]`                         | Configuration array           |
+| `disabled?`          | `boolean`                             | Disables all inputs           |
+| `selectedValues?`    | `Record<string, any>`                 | Pre-filled values             |
+| `submitButtonLabel?` | `string`                              | Custom submit label           |
+| `hideSubmit?`        | `boolean`                             | Hide the submit button        |
+| `onChange?`          | `(data: Record<string, any>) => void` | Called on any change          |
+| `onSubmit?`          | `(data: Record<string, any>) => void` | Called on submit              |
+| `onRemove?`          | `(data: Record<string, any>) => void` | Called when delete is clicked |
 
 ---
 
@@ -118,7 +114,7 @@ interface FormField {
 - `text`: Single-line text input
 - `checkbox`: Boolean checkbox
 - `radio`: Select one from multiple options
-- `select`: Dropdown with options or async API loading
+- `select`: Dropdown with options
 - `date`: MUI-compatible date picker
 - `hidden`: Hidden input for internal values
 - `array`: Nested and repeatable field sets
@@ -151,8 +147,8 @@ Example:
 Clone locally:
 
 ```bash
-git clone https://github.com/your-org/dynafield.git
-cd dynafield
+git clone https://github.com/prashanth0926/react-dynoform.git
+cd react-dynoform
 npm install
 ```
 
