@@ -1,6 +1,6 @@
 {
   "name": "react-dynoform",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "JSON-based Dynamic Form Builder for React",
   "main": "dist/DynamicForm.js",
   "types": "dist/DynamicForm.d.ts",
