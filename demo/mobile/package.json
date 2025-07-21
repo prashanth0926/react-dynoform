@@ -1,0 +1,17 @@
+{
+  "name": "dynoform-mobile-example",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start"
+  },
+  "dependencies": {
+    "expo": "^53.0.0",
+    "react": "19.1.0",
+    "react-native": "^0.80.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "typescript": "^5.4.5"
+  }
+}

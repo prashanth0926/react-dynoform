@@ -150,13 +150,30 @@ Clone locally:
 git clone https://github.com/prashanth0926/react-dynoform.git
 cd react-dynoform
 npm install
-npm run dev
 ```
 
 Build for production:
 
 ```bash
 npm run build
+```
+
+Run demo:
+
+- web
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+- mobile
+
+```bash
+cd mobile
+npm install
+npm start
 ```
 
 ---

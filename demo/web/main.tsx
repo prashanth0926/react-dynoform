@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import DynamicForm, { FormField } from '../src/DynamicForm';
+import DynamicForm, { FormField } from '../../src/DynamicForm';
 
 const App = () => {
   const formFields: FormField[] = [

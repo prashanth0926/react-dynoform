@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Dynoform Mobile Example",
+    "slug": "dynoform-mobile-example",
+    "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "jsEngine": "hermes",
+    "android": {
+      "package": "com.anonymous.dynoformmobileexample"
+    }
+  }
+}
